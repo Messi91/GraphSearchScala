@@ -14,36 +14,34 @@ object Search {
 
     while (fringe.size > 0) {
       val path = getNext(fringe, strategy)
-      val node = path.last
+      val nodeOption = path.getLastNode
 
-      if (goalTest(problem, node)) {
+      if (nodeOption.map(goalTest(problem, _)).getOrElse(false)) {
         return Some(path)
       }
 
-      if (!closed.contains(node.data)) {
-        closed = closed + node.data
+      if (!nodeOption.map(node => closed.contains(node.data)).getOrElse(false)) {
+        closed = nodeOption.map(closed + _.data).getOrElse(closed)
       }
 
-      for (childNode <- expand(node, problem)) {
-        fringe = insert(node, childNode, path, fringe, problem)
+      for (childNode <- nodeOption.map(expand(_, problem)).getOrElse(Seq.empty)) {
+        fringe = insert(nodeOption.get, childNode, path, fringe, problem)
       }
       fringe = removePath(fringe, path)
       println("closed = " + closed)
       println("fringe = " + fringe)
       println("path = " + path)
-      println("node = " + node + "\n")
+      println("nodeOption = " + nodeOption + "\n")
     }
 
     None
   }
 
   def insert(node: Node, fringe: Seq[Path], problem: Problem): Seq[Path] = {
-    fringe :+ Path(node, Seq.empty)
+    problem.states.getNode(node.data).map(retrieved => List(fringe.toList, List(Path(retrieved))).flatten.toSeq).getOrElse(fringe)
   }
 
   def insert(node1: Node, node2: Node, path: Path, fringe: Seq[Path], problem: Problem): Seq[Path] = {
-    println(s"insert(node1 = ${node1.data}, node2 = ${node2.data}, fringe = ${fringe})")
-    println("result = " + problem.states.getEdge(node1.data, node2.data).map(edge => path :+ edge).getOrElse(Path(Seq.empty)) + "\n")
     fringe :+ problem.states.getEdge(node1.data, node2.data).map(edge => path :+ edge).getOrElse(Path(Seq.empty))
   }
 
