@@ -12,6 +12,14 @@ object Strategies {
   }
 
   def bfs(fringe: Seq[Path]): Path = {
-    fringe.last
+    fringe.sortBy(_.edges.size).head
+  }
+
+  def ucs(fringe: Seq[Path]): Path = {
+    fringe.sortBy(_.edges.map(_.cost).sum).head
+  }
+
+  def a_*(fringe: Seq[Path]): Path = {
+    fringe.sortBy(_.cost).head
   }
 }

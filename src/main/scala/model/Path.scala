@@ -9,8 +9,16 @@ case class Path (edges: Seq[Edge]) {
     Path(edges :+ edge)
   }
 
-  def getLastNode: Option[Node] = {
+  def nodes: Seq[Node] = {
+    lastNode.map(lastNode => edges.map(_.node1).:+(lastNode)).getOrElse(edges.map(_.node1))
+  }
+
+  def lastNode: Option[Node] = {
     edges.lastOption.map(_.node2)
+  }
+  
+  def cost: Int = {
+    edges.map(_.cost).sum + lastNode.map(_.heuristic).getOrElse(0)
   }
 
   override def toString: String = {
