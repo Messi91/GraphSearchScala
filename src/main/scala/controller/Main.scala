@@ -22,7 +22,6 @@ object Main extends App {
 //  graph.addEdge(a, g)
 //  graph.addEdge(c, b)
 //  graph.addEdge(b, g)
-//
 //  def strategy(fringe: Seq[Path]) = Strategies.dfs(fringe)
 
 //  var graph = model.Graph()
@@ -32,7 +31,6 @@ object Main extends App {
 //  graph.addEdge(b, g)
 //  graph.addEdge(a, c)
 //  graph.addEdge(c, g)
-//
 //  def strategy(fringe: Seq[Path]) = Strategies.bfs(fringe)
 
 //  var graph = model.Graph()
@@ -41,7 +39,6 @@ object Main extends App {
 //  graph.addEdge(b, c)
 //  graph.addEdge(c, a)
 //  graph.addEdge(c, g)
-//
 //  def strategy(fringe: Seq[Path]) = Strategies.bfs(fringe)
 
   var graph = model.Graph()
@@ -54,10 +51,9 @@ object Main extends App {
   graph.addEdge(b, g, 10)
   graph.addEdge(c, g, 7)
   graph.addEdge(d, g, 4)
+  def strategy(fringe: Seq[Path]) = Strategies.a_*(fringe)
 
-  def strategy(fringe: Seq[Path]) = Strategies.bfs(fringe)
-
-  Search(Problem(graph, s, (node: Node) => node.data == g), strategy)
+  Search(Problem(graph, s, (node: Node) => node.getData == g), strategy)
 
   def show(message: Option[Path]): Unit = {
     if (message.isEmpty) {

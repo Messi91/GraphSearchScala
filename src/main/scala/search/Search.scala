@@ -41,11 +41,11 @@ object Search {
   }
 
   def insert(node: Node, fringe: Seq[Path], problem: Problem): Seq[Path] = {
-    problem.states.getNode(node.data).map(retrieved => addPathToFringe(Path(retrieved), fringe)).getOrElse(fringe)
+    problem.states.getNode(node.getData).map(retrieved => addPathToFringe(Path(retrieved), fringe)).getOrElse(fringe)
   }
 
   def insert(node1: Node, node2: Node, path: Path, fringe: Seq[Path], problem: Problem): Seq[Path] = {
-    addPathToFringe(problem.states.getEdge(node1.data, node2.data).map(edge => path :+ edge).getOrElse(Path(Seq.empty)), fringe)
+    addPathToFringe(problem.states.getEdge(node1.getData, node2.getData).map(edge => path :+ edge).getOrElse(Path(Seq.empty)), fringe)
   }
 
   // Should take a list of paths and return the latest addition to the path provided by the strategy
@@ -72,7 +72,7 @@ object Search {
   // Should take a node and return a list of edges
   def expand(node: Node, problem: Problem): Seq[Node] = {
 //    println(s"expand(node = ${node}) = node.vertices = " + node.vertices)
-    problem.states.getNode(node.data).map(_.vertices.values.toSeq).getOrElse(Seq.empty)
+    problem.states.getNode(node.getData).map(_.vertices.values.toSeq).getOrElse(Seq.empty)
   }
 
   def addPathToFringe(path: Path, fringe: Seq[Path]): Seq[Path] = {
