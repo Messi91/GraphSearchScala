@@ -18,7 +18,7 @@ object Search {
       val nodeOption = path.lastNode
 
       if (nodeOption.map(goalTest(problem, _)).getOrElse(false)) {
-        println(s"Step ${counter}: Expand ${path}, finding the goal.")
+        println(s"Step ${counter}: Expand ${path} (${path.cost}), finding the goal.")
         return Some(path)
       }
 
